@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Legal Rights Navigator</title>
+    <!-- Simple, fast-loading font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d; /* Navy */
+            --accent: #f59e0b; /* Amber/Orange */
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --card: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* Mobile-First Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-weight: 700; font-size: 1.2rem; }
+        .lang-toggle { background: transparent; border: 1px solid white; color: white; padding: 4px 8px; cursor: pointer; border-radius: 4px; }
+
+        /* Hero & Search */
+        .hero { padding: 2rem 1rem; text-align: center; background: white; border-bottom: 1px solid #e2e8f0; }
+        .hero h1 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        .chat-input:focus { border-color: var(--accent); }
+
+        .voice-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* Results Section (Hidden by default) */
+        #results-area { display: none; padding: 1.5rem; max-width: 800px; margin: 0 auto; }
+        .rights-card { background: var(--card); border-left: 5px solid var(--accent); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .step-box { background: #eff6ff; padding: 1rem; margin-top: 1rem; border-radius: 6px; }
+
+        /* Category Grid */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .cat-card {
+            background: white;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+        }
+
+        .cat-card:hover { border-color: var(--accent); }
+        .cat-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+
+        /* Local Help Map Placeholder */
+        .map-section { padding: 1.5rem; max-width: 1000px; margin: 0 auto; }
+        .map-box {
+            height: 200px;
+            background: #cbd5e1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #64748b; }
+
+        /* Utility */
+        .btn-action { background: var(--primary); color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; width: 100%; font-weight: bold; }
+
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .map-box { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">⚖️ Legal Navigator</div>
+    <button class="lang-toggle" onclick="toggleLang()">English | हिन्दी</button>
+</header>
+
+<section class="hero">
+    <h1 id="hero-title">Know your legal rights in simple language.</h1>
+    <div class="chat-container">
+        <input type="text" id="userInput" class="chat-input" placeholder="Example: My landlord is not returning my deposit...">
+        <button class="voice-btn" title="Voice Input">🎤</button>
+        <button class="btn-action" onclick="analyzeProblem()" style="margin-top: 15px;">Get Legal Advice</button>
+    </div>
+</section>
+
+<!-- AI Response Section -->
+<section id="results-area">
+    <div class="rights-card">
+        <h2 id="result-type">Legal Category Identified</h2>
+        <p id="result-explanation" style="margin-top: 10px;"></p>
+        
+        <div class="step-box">
+            <strong>📋 Action Steps:</strong>
+            <ul id="action-steps" style="margin-left: 20px; margin-top: 10px;"></ul>
+        </div>
+        
+        <button class="btn-action" style="background: #059669;">Download as SMS / Text</button>
+    </div>
+</section>
+
+<section class="categories">
+    <div class="cat-card">
+        <span class="cat-icon">🛒</span>
+        <p>Consumer Rights</p>
+    </div>
+    <div class="cat-card">
+        <span class="cat-icon">👷</span>
+        <p>Worker Rights</p>
+    </div>
+    <div class="cat-card">
+        <span class="cat-icon">👩</span>
+        <p>Women's Rights</p>
+    </div>
+    <div class="cat-card">
+        <span class="cat-icon">📱</span>
+        <p>Digital Fraud</p>
+    </div>
+</section>
+
+<section class="map-section">
+    <h3>📍 Nearby Legal Help</h3>
+    <p style="margin-bottom: 10px; font-size: 0.9rem;">Showing nearest Legal Aid Centers and Police Stations.</p>
+    <div class="map-box">
+        <p>OpenStreetMap Integration Placeholder<br>(Low-Bandwidth List Mode Available)</p>
+    </div>
+</section>
+
+<footer>
+    <p>AI Legal Rights Navigator - Empowering citizens through accessible law.</p>
+    <p>Privacy First: No personal data is stored.</p>
+</footer>
+
+<script>
+    // Simple Language Logic
+    let currentLang = 'en';
+    function toggleLang() {
+        currentLang = currentLang === 'en' ? 'hi' : 'en';
+        document.getElementById('hero-title').innerText = currentLang === 'en' ? 
+            'Know your legal rights in simple language.' : 
+            'अपनी कानूनी अधिकारों को सरल भाषा में जानें।';
+        document.getElementById('userInput').placeholder = currentLang === 'en' ? 
+            'Example: My landlord is not returning my deposit...' : 
+            'उदाहरण: मेरा मकान मालिक मेरी सुरक्षा राशि वापस नहीं कर रहा है...';
+    }
+
+    // Mock AI Logic
+    function analyzeProblem() {
+        const input = document.getElementById('userInput').value.toLowerCase();
+        const resultsArea = document.getElementById('results-area');
+        const resTitle = document.getElementById('result-type');
+        const resExpl = document.getElementById('result-explanation');
+        const resSteps = document.getElementById('action-steps');
+
+        if(input.length < 5) {
+            alert("Please describe your situation in more detail.");
+            return;
+        }
+
+        resultsArea.style.display = 'block';
+        resSteps.innerHTML = ''; // Clear previous
+
+        // Mock Intent Classification
+        if (input.includes('landlord') || input.includes('rent') || input.includes('deposit')) {
+            resTitle.innerText = "🏠 Tenant Rights (Rent Control)";
+            resExpl.innerText = "Under local Rent Control laws, a landlord cannot withhold a security deposit without providing a list of specific damages.";
+            const steps = ["Send a formal written notice via WhatsApp or Speed Post.", "Keep proof of all rent receipts.", "Approach the Rent Controller office if they don't reply in 15 days."];
+            steps.forEach(s => resSteps.innerHTML += `<li>${s}</li>`);
+        } 
+        else if (input.includes('salary') || input.includes('boss') || input.includes('fired')) {
+            resTitle.innerText = "👷 Worker Rights";
+            resExpl.innerText = "The Payment of Wages Act ensures you are paid on time. Termination requires a notice period or pay-in-lieu.";
+            const steps = ["Gather your offer letter and bank statements.", "Contact your HR in writing.", "Visit the local Labour Commissioner's office."];
+            steps.forEach(s => resSteps.innerHTML += `<li>${s}</li>`);
+        }
+        else {
+            resTitle.innerText = "⚖️ General Legal Help";
+            resExpl.innerText = "Based on your description, you should consult a free legal aid volunteer to categorize this specific issue.";
+            const steps = ["Visit the nearest Legal Aid Center (shown below).", "Carry a valid ID proof.", "Ask for a 'Para-legal Volunteer'."];
+            steps.forEach(s => resSteps.innerHTML += `<li>${s}</li>`);
+        }
+
+        // Auto-scroll to results
+        resultsArea.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

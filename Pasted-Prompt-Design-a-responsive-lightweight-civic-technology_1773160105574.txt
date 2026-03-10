@@ -1,0 +1,39 @@
+Prompt: 
+Design a responsive, lightweight civic technology website called **AI Legal Rights Navigator**. 
+
+Purpose:
+Help citizens understand their legal rights in simple language based on real-life situations. 
+
+Core Features:
+1. Situation-to-Rights AI → Users describe problems in natural language, system maps them to relevant laws.
+2. Simple Legal Language → Convert complex legal text into easy explanations.
+3. Step-by-Step Legal Guidance → Show complaint filing steps, required documents, expected outcomes.
+4. Hyper-Local Legal Help → Display nearby police stations, legal aid centers, consumer courts.
+5. Multilingual Support → Hindi + regional languages, with voice/SMS input for rural accessibility.
+6. Low Bandwidth Accessibility → Text-first interface, minimal data usage, chat-style interaction.
+
+Pages/Sections:
+- **Home Page**: Intro banner, “Describe Your Problem” input box, quick categories (Consumer Rights, Worker Rights, Women’s Rights, Tenant Rights, Digital Fraud).
+- **How It Works**: Visual flowchart (Problem → AI → Rights → Action Steps → Local Help).
+- **Legal Categories**: Expandable cards with simplified law explanations.
+- **Nearby Help**: Map integration (OpenStreetMap API) showing local legal aid centers.
+- **Languages**: Toggle for Hindi/regional languages, voice input option.
+- **About & Impact**: Explain empowerment, access to justice, governance insights.
+
+Design Style:
+- Clean, minimal, mobile-first.
+- Accessible fonts, high contrast for readability.
+- Icons for categories (e.g., scales of justice, shield, handshake).
+- Chat-style interface for problem input.
+
+Technology Stack (for developer handoff):
+- Frontend: HTML/CSS/JavaScript
+- Backend: FastAPI/Flask
+- Database: PostgreSQL/SQLite
+- AI/NLP: Intent classification models
+- Mapping: OpenStreetMap API
+- Voice: Speech-to-text integration
+- Hosting: Cloud free-tier deployment
+
+Output:
+Generate a modern, user-friendly website layout with clear navigation, interactive chat input, and localized legal help integration. Ensure accessibility for low-bandwidth rural users.
